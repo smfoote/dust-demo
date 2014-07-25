@@ -1,0 +1,106 @@
+<!-- Dependencies -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dustjs-linkedin/2.4.0/dust-full.min.js"></script>
+<link rel="import" href="dust-demo-template.html">
+<link rel="import" href="dust-demo-json.html">
+
+<!-- HTML -->
+<template id="template">
+
+  <content select="dust-demo-template"></content>
+  <content select="dust-demo-json"></content>
+  <pre id="compiled-dust"></pre>
+  <pre id="output"></pre>
+
+  <!-- component styling -->
+  <style>
+    :host {
+      display: block;
+    }
+
+    dust-demo-template,
+    textarea,
+    pre {
+      min-height: 120px;
+      width: 85%;
+      background-color: #222;
+      color: #72CC72;
+      font-family: Consolas, Courier, monospace;
+      font-size: 15px;
+      white-space: normal;
+    }
+
+    #compiled-dust {
+      display: none;
+    }
+
+    :host([dev]) #compiled-dust {
+      display: block;
+    }
+  </style>
+</template>
+
+<!-- Interaction -->
+<script>
+  (function(document) {
+    var DustDemoController = function(context) {
+      this.context = context;
+      this.templateName = this.context.getAttribute('template-name') || 'default';
+
+      // Create a shadow root
+      this.shadow = this.context.createShadowRoot();
+
+      // stamp out our template in the shadow dom
+      var template = document.querySelector("#template").content.cloneNode(true);
+      this.shadow.appendChild(template);
+
+      this.setupListeners();
+      this.renderDust();
+    };
+
+    DustDemoController.prototype.setupListeners = function() {
+      var editors = this.context.querySelectorAll('dust-demo-template, dust-demo-json');
+      var that = this;
+      var editor;
+
+      for (var i=0; (editor = editors[i]); i++) {
+        editor.addEventListener('focus', function(evt) {
+          that.renderDust();
+        });
+      }
+      // editors.addEventListener('blur', this.renderDust);
+    };
+
+    DustDemoController.prototype.renderDust = function() {
+      var template = this.context.querySelector('dust-demo-template').innerText;
+      if (!template) {
+        return;
+      }
+      var data = this.context.querySelector('dust-demo-json').innerText.replace('&nbsp;', ' ');
+      if (data) {
+        eval('var data = ' + data + ';');
+      }
+      var compiledContainer = this.shadow.getElementById('compiled-dust');
+      var outputContainer = this.shadow.getElementById('output');
+      var compiledDust = dust.compile(template, this.templateName);
+      // } catch {
+      //   console.log('compile error');
+      // }
+      dust.loadSource(compiledDust);
+      dust.render(this.templateName, data, function(err, out) {
+        if (err) {
+          console.log('render error');
+        }
+        compiledContainer.innerText = compiledDust;
+        outputContainer.innerText = out;
+      })
+    }
+
+    var DustDemo = Object.create(HTMLElement.prototype);
+    DustDemo.createdCallback = function() {
+      this.controller = new DustDemoController(this);
+    };
+
+    document.registerElement('dust-demo', {prototype: DustDemo});
+
+  })(document.currentScript.ownerDocument);
+</script>
