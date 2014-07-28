@@ -1,4 +1,4 @@
-<template id="template">
+<template id="template" whitespace="preserve"><content></content>
   <style>
     :host {
       display: block;
@@ -10,10 +10,9 @@
       color: #72CC72;
       font-family: Consolas, Courier, monospace;
       font-size: 15px;
-      white-space: normal;
+      white-space: pre;
     }
   </style>
-  <content></content>
 </template>
 <script>
   (function(document) {
@@ -22,6 +21,7 @@
 
       this.shadow = this.context.createShadowRoot();
       this.context.setAttribute('contenteditable', 'true');
+      console.log(this.context.textContent);
 
       // stamp out our template in the shadow dom
       var template = document.querySelector("#template").content.cloneNode(true);

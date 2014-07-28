@@ -5,36 +5,53 @@
 
 <!-- HTML -->
 <template id="template">
-
+  <h3 id="template-header">Dust Template</h3>
   <content select="dust-demo-template"></content>
+  <h3 id="data-header">Data</h3>
   <content select="dust-demo-json"></content>
+  <h3 id="compiled-header">Compiled Dust</h3>
   <pre id="compiled-dust"></pre>
+  <h3 id="output-header">Output</h3>
   <pre id="output"></pre>
+  <button id="dev-toggle">Dev Mode</button>
 
   <!-- component styling -->
   <style>
     :host {
+      position: relative;
       display: block;
     }
 
-    dust-demo-template,
-    textarea,
     pre {
       min-height: 120px;
       width: 85%;
+      padding: 10px;
       background-color: #222;
       color: #72CC72;
       font-family: Consolas, Courier, monospace;
       font-size: 15px;
-      white-space: normal;
+      white-space: pre-wrap;
     }
 
-    #compiled-dust {
+    #compiled-dust,
+    #compiled-header {
       display: none;
     }
 
-    :host([dev]) #compiled-dust {
+    :host([dev]) #compiled-dust,
+    :host([dev]) #compiled-header {
       display: block;
+    }
+
+    #dev-toggle {
+      position: absolute;
+      top: 50px;
+      left: 80%;
+      opacity: 0;
+    }
+
+    :host(:hover) #dev-toggle {
+      opacity: 0.7;
     }
   </style>
 </template>
@@ -59,15 +76,19 @@
 
     DustDemoController.prototype.setupListeners = function() {
       var editors = this.context.querySelectorAll('dust-demo-template, dust-demo-json');
+      var toggleDevButton = this.shadow.querySelector('#dev-toggle');
       var that = this;
       var editor;
 
       for (var i=0; (editor = editors[i]); i++) {
-        editor.addEventListener('focus', function(evt) {
+        editor.addEventListener('input', function(evt) {
           that.renderDust();
         });
       }
-      // editors.addEventListener('blur', this.renderDust);
+
+      toggleDevButton.addEventListener('click', function(evt) {
+        that.toggleDev();
+      });
     };
 
     DustDemoController.prototype.renderDust = function() {
@@ -82,9 +103,6 @@
       var compiledContainer = this.shadow.getElementById('compiled-dust');
       var outputContainer = this.shadow.getElementById('output');
       var compiledDust = dust.compile(template, this.templateName);
-      // } catch {
-      //   console.log('compile error');
-      // }
       dust.loadSource(compiledDust);
       dust.render(this.templateName, data, function(err, out) {
         if (err) {
@@ -93,7 +111,16 @@
         compiledContainer.innerText = compiledDust;
         outputContainer.innerText = out;
       })
-    }
+    };
+
+    DustDemoController.prototype.toggleDev = function() {
+      var el = this.context;
+      if (el.hasAttribute('dev')) {
+        el.removeAttribute('dev');
+      } else {
+        el.setAttribute('dev', '');
+      }
+    };
 
     var DustDemo = Object.create(HTMLElement.prototype);
     DustDemo.createdCallback = function() {
