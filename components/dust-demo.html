@@ -5,26 +5,32 @@
 
 <!-- HTML -->
 <template id="template">
-  <h3 id="template-header">Dust Template</h3>
-  <content select="dust-demo-template"></content>
-  <h3 id="data-header">Data</h3>
-  <content select="dust-demo-json"></content>
-  <h3 id="compiled-header">Compiled Dust</h3>
-  <pre id="compiled-dust"></pre>
-  <h3 id="output-header">Output</h3>
-  <pre id="output"></pre>
+  <div class="container">
+    <h3 id="template-header">Dust Template</h3>
+    <content select="dust-demo-template"></content>
+  </div>
+  <div class="container">
+    <h3 id="data-header">Data</h3>
+    <content select="dust-demo-json"></content>
+  </div>
+  <div class="container">
+    <h3 id="compiled-header">Compiled Dust</h3>
+    <pre id="compiled-dust"></pre>
+  </div>
+  <div class="container">
+    <h3 id="output-header">Output</h3>
+    <pre id="output"></pre>
+  </div>
   <button id="dev-toggle">Dev Mode</button>
 
   <!-- component styling -->
   <style>
     :host {
-      position: relative;
       display: block;
     }
 
     pre {
       min-height: 120px;
-      width: 85%;
       padding: 10px;
       background-color: #222;
       color: #72CC72;
@@ -45,13 +51,32 @@
 
     #dev-toggle {
       position: absolute;
-      top: 50px;
-      left: 80%;
+      top: 10px;
+      right: 0;
       opacity: 0;
     }
 
     :host(:hover) #dev-toggle {
       opacity: 0.7;
+    }
+
+    .container {
+      position: relative;
+    }
+
+    h3 {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 5px;
+      margin: 0;
+      color: #FFF;
+      border: 1px dashed #72CC72;
+      border-right: none;
+      border-top: none;
+      font-family: Helvetica, sans-serif;
+      font-size: 15px;
+      font-weight: normal;
     }
   </style>
 </template>
@@ -125,6 +150,11 @@
     var DustDemo = Object.create(HTMLElement.prototype);
     DustDemo.createdCallback = function() {
       this.controller = new DustDemoController(this);
+    };
+
+    // Don't strip whitespace
+    dust.optimizers.format = function(ctx, node) {
+      return node;
     };
 
     document.registerElement('dust-demo', {prototype: DustDemo});

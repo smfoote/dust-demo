@@ -6,8 +6,8 @@
   <link rel="import" href="components/dust-demo.html">
 </head>
 <body>
-  <dust-demo dev>
-<dust-demo-template>Hello {name}</dust-demo-template>
+  <dust-demo dev name="test">
+  <dust-demo-template>Hello {name}, and {&gt;includeMe/}</dust-demo-template>
 <dust-demo-json>{
   "name": "Steven"
 }</dust-demo-json>
