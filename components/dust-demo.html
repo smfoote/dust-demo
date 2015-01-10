@@ -188,5 +188,5 @@
 
     document.registerElement('dust-demo', {prototype: DustDemo});
 
-  })(document.currentScript.ownerDocument);
+  })((document._currentScript || document.currentScript).ownerDocument);
 </script>

@@ -33,5 +33,5 @@
       this.controller = new DustDemoJSONController(this);
     };
     document.registerElement('dust-demo-json', {prototype: DustDemoJSON});
-  })(document.currentScript.ownerDocument);
+  })((document._currentScript || document.currentScript).ownerDocument);
 </script>
