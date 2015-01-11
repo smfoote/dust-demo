@@ -1,6 +1,6 @@
-<template id="template" whitespace="preserve"><content></content>
+<template id="dust-json-template" whitespace="preserve"><content></content>
   <style>
-    :host {
+    dust-demo-json {
       display: block;
       min-height: 120px;
       padding: 10px;
@@ -14,16 +14,15 @@
   </style>
 </template>
 <script>
-  (function(document) {
+  (function(dom) {
     var DustDemoJSONController = function(context) {
       this.context = context;
 
       this.shadow = this.context.createShadowRoot();
       this.context.setAttribute('contenteditable', 'true');
-      console.log(this.context.textContent);
 
       // stamp out our template in the shadow dom
-      var template = document.querySelector("#template").content.cloneNode(true);
+      var template = dom.querySelector("#dust-json-template").content.cloneNode(true);
       this.shadow.appendChild(template);
     }
 

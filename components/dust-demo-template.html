@@ -1,6 +1,6 @@
-<template id="template" whitespace="preserve"><content></content>
+<template id="dust-demo-tl-template" whitespace="preserve"><content></content>
   <style>
-    :host {
+    dust-demo-template {
       display: block;
       padding: 10px;
       margin-bottom: 10px;
@@ -14,7 +14,7 @@
   </style>
 </template>
 <script>
-  (function(document) {
+  (function(dom) {
     var DustDemoTemplateController = function(context) {
       this.context = context;
 
@@ -22,7 +22,7 @@
       this.context.setAttribute('contenteditable', 'true');
 
       // stamp out our template in the shadow dom
-      var template = document.querySelector("#template").content.cloneNode(true);
+      var template = dom.querySelector("#dust-demo-tl-template").content.cloneNode(true);
       this.shadow.appendChild(template);
     }
 

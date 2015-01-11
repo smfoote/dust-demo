@@ -5,7 +5,7 @@
 <link rel="import" href="dust-demo-json.html">
 
 <!-- HTML -->
-<template id="template">
+<template id="dust-demo-template">
   <div class="container">
     <h3 id="template-header">Dust Template</h3>
     <content select="dust-demo-template"></content>
@@ -26,7 +26,7 @@
 
   <!-- component styling -->
   <style>
-    :host {
+    dust-demo {
       position: relative;
       display: block;
     }
@@ -46,8 +46,8 @@
       display: none;
     }
 
-    :host([dev]) #compiled-dust,
-    :host([dev]) #compiled-header {
+    dust-demo[dev] #compiled-dust,
+    dust-demo[dev] #compiled-header {
       display: block;
     }
 
@@ -58,16 +58,16 @@
       opacity: 0;
     }
 
-    :host #dev-toggle:focus,
-    :host(:hover) #dev-toggle:focus,
-    :host #dev-toggle:active,
-    :host(:hover) #dev-toggle:active,
-    :host #dev-toggle:hover,
-    :host(:hover) #dev-toggle:hover {
+    dust-demo #dev-toggle:focus,
+    dust-demo:hover #dev-toggle:focus,
+    dust-demo #dev-toggle:active,
+    dust-demo:hover #dev-toggle:active,
+    dust-demo #dev-toggle:hover,
+    dust-demo:hover #dev-toggle:hover {
       opacity: 1;
     }
 
-    :host(:hover) #dev-toggle {
+    dust-demo:hover #dev-toggle {
       opacity: 0.7;
     }
 
@@ -94,7 +94,7 @@
 
 <!-- Interaction -->
 <script>
-  (function(document) {
+  (function(dom) {
     var DustDemoController = function(context) {
       this.context = context;
       this.templateName = this.context.getAttribute('template-name') || 'default' + (new Date()).getTime();
@@ -103,7 +103,7 @@
       this.shadow = this.context.createShadowRoot();
 
       // stamp out our template in the shadow dom
-      var template = document.querySelector("#template").content.cloneNode(true);
+      var template = dom.querySelector("#dust-demo-template").content.cloneNode(true);
       this.shadow.appendChild(template);
 
       this.setupListeners();
@@ -146,11 +146,11 @@
       if (!(templateEl && jsonEl)) {
         return;
       }
-      var template = templateEl.innerText;
+      var template = templateEl.innerHTML;
       if (!template) {
         return;
       }
-      var data = jsonEl.innerText.replace('&nbsp;', ' ');
+      var data = jsonEl.innerHTML.replace('&nbsp;', ' ');
       if (data) {
         eval('var data = ' + data + ';');
       }
@@ -162,8 +162,8 @@
         if (err) {
           console.log('render error');
         }
-        compiledContainer.innerText = compiledDust;
-        outputContainer.innerText = out;
+        compiledContainer.innerHTML = compiledDust;
+        outputContainer.innerHTML = out;
       })
     };
 

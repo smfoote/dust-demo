@@ -4,12 +4,19 @@
   <title>Dust Demo... Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="import" href="components/dust-demo.html">
+  <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
 </head>
 <body>
   <dust-demo dev name="test">
   <dust-demo-template>Hello {name}</dust-demo-template>
 <dust-demo-json>{
   "name": "Steven"
+}</dust-demo-json>
+  </dust-demo>
+  <dust-demo dev name="two">
+  <dust-demo-template>Number {num}</dust-demo-template>
+<dust-demo-json>{
+  "num": 2
 }</dust-demo-json>
   </dust-demo>
 </body>
