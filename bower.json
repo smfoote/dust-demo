@@ -1,6 +1,6 @@
 {
   "name": "dust-demo",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "homepage": "http://smfoote.github.io/dust-demo/",
   "authors": [
     "Steven Foote <smfoote@gmail.com>"
@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "webcomponentsjs": "~0.5.2"
+    "webcomponentsjs": "~0.5.2",
+    "polymer": "Polymer/polymer#~0.5.2"
   }
 }

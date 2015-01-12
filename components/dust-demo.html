@@ -26,14 +26,15 @@
 
   <!-- component styling -->
   <style>
-    dust-demo {
+    :host {
       position: relative;
       display: block;
     }
 
-    dust-demo pre {
+    pre {
       min-height: 120px;
       padding: 10px;
+      margin: 10px 0;
       background-color: #222;
       color: #72CC72;
       font-family: Consolas, Courier, monospace;
@@ -41,44 +42,42 @@
       white-space: pre-wrap;
     }
 
-    dust-demo #compiled-dust,
-    dust-demo #compiled-header {
+    #compiled-dust,
+    #compiled-header {
       display: none;
     }
 
-    dust-demo[dev] #compiled-dust,
-    dust-demo[dev] #compiled-header {
+    :host([dev]) #compiled-dust,
+    :host([dev]) #compiled-header {
       display: block;
     }
 
-    dust-demo #dev-toggle {
+    #dev-toggle {
       position: absolute;
       top: 10px;
       right: 0;
       opacity: 0;
     }
 
-    dust-demo #dev-toggle:focus,
-    dust-demo:hover #dev-toggle:focus,
-    dust-demo #dev-toggle:active,
-    dust-demo:hover #dev-toggle:active,
-    dust-demo #dev-toggle:hover,
-    dust-demo:hover #dev-toggle:hover {
+    #dev-toggle:focus,
+    :host(:hover) #dev-toggle:focus,
+    #dev-toggle:active,
+    :host(:hover) #dev-toggle:active,
+    #dev-toggle:hover,
+    :host(:hover) #dev-toggle:hover {
       opacity: 1;
     }
 
-    dust-demo:hover #dev-toggle {
+    :host(:hover) #dev-toggle {
       opacity: 0.7;
     }
 
-    dust-demo .container {
+    .container {
       position: relative;
     }
 
-    dust-demo h3 {
-      position: absolute;
-      top: 0;
-      right: 0;
+    h3 {
+      float: right;
       padding: 5px;
       margin: 0;
       color: #FFF;
