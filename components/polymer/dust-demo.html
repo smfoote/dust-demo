@@ -130,7 +130,7 @@
         if (!(templateEl && jsonEl)) {
           return;
         }
-        // Unescape '>' to read include syntax correctly
+        // Unescape '>' to read Dust's include syntax correctly
         var template = templateEl.innerHTML.replace('&gt;', '>');
         if (!template) {
           return;

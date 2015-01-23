@@ -145,7 +145,8 @@
       if (!(templateEl && jsonEl)) {
         return;
       }
-      var template = templateEl.innerHTML;
+      // Unescape '>' to read Dust's include syntax correctly
+      var template = templateEl.innerHTML.replace('&gt;', '>');
       if (!template) {
         return;
       }
