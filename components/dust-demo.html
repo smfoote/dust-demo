@@ -113,29 +113,27 @@
 
     DustDemoController.prototype.setupListeners = function() {
       var toggleDevButton = this.shadow.querySelector('#dev-toggle');
-      var that = this;
 
       this.setupEditorListeners();
       toggleDevButton.addEventListener('click', function(evt) {
-        that.toggleDev();
-      });
+        this.toggleDev();
+      }.bind(this));
 
       this.context.addEventListener('DOMSubtreeModified', function() {
-        that.setupEditorListeners();
-        that.renderDust();
-      });
+        this.setupEditorListeners();
+        this.renderDust();
+      }.bind(this));
     };
 
     DustDemoController.prototype.setupEditorListeners = function() {
       if (!this.editorListenersInitialized) {
         var editors = this.context.querySelectorAll('dust-demo-template, dust-demo-json');
-        var that = this;
         var editor;
 
         for (var i=0; (editor = editors[i]); i++) {
           editor.addEventListener('dust-update', function(evt) {
-            that.renderDust();
-          });
+            this.renderDust();
+          }.bind(this));
         }
         this.editorListenersInitialized = true;
       }
@@ -148,7 +146,7 @@
         return;
       }
       // Unescape '>' and '<' to read Dust's include syntax correctly
-      var template = templateEl.innerHTML.replace('&gt;', '>').replace('&lt;', '<');
+      var template = templateEl.innerHTML.replace(/&gt;/g, '>').replace(/&lt;/g, '<');
       if (!template) {
         return;
       }
@@ -165,7 +163,7 @@
           console.log('render error');
         }
         compiledContainer.innerHTML = compiledDust;
-        outputContainer.innerHTML = out;
+        outputContainer.innerHTML = dust.escapeHtml(out);
       })
     };
 

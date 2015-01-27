@@ -133,7 +133,7 @@
           return;
         }
         // Unescape '>' and '<' to read Dust's include syntax correctly
-        var template = templateEl.innerHTML.replace('&gt;', '>').replace('&lt;', '<');
+        var template = templateEl.innerHTML.replace(/&gt;/g, '>').replace(/&lt;/g, '<');
         if (!template) {
           return;
         }
@@ -150,7 +150,7 @@
             console.log('render error');
           }
           compiledContainer.innerHTML = compiledDust;
-          outputContainer.innerHTML = out;
+          outputContainer.innerHTML = dust.escapeHtml(out);
         })
       },
       toggleDev: function(evt) {
