@@ -115,6 +115,9 @@
       var toggleDevButton = this.shadow.querySelector('#dev-toggle');
 
       this.setupEditorListeners();
+
+      this.shadow.addEventListener('click', this.handleClicks.bind(this));
+
       toggleDevButton.addEventListener('click', function(evt) {
         this.toggleDev();
       }.bind(this));
@@ -136,6 +139,13 @@
           }.bind(this));
         }
         this.editorListenersInitialized = true;
+      }
+    };
+
+    DustDemoController.prototype.handleClicks = function(evt) {
+      var target = evt.target;
+      if (target.tagName.toLowerCase() === 'h3') {
+        this.collapseContainer(target.parentElement);
       }
     };
 
@@ -173,6 +183,14 @@
         el.removeAttribute('dev');
       } else {
         el.setAttribute('dev', '');
+      }
+    };
+
+    DustDemoController.prototype.collapseContainer = function(el) {
+      if (el.classList.contains('collapsed')) {
+        el.classList.remove('collapsed');
+      } else {
+        el.classList.add('collapsed');
       }
     };
 
