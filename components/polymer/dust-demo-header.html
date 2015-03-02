@@ -1,0 +1,72 @@
+<polymer-element name="dust-demo-header" attributes="type text templateName showTemplateName">
+  <template>
+    <div class="header">
+      <h3 id="name-header">{{templateName}}</h3>
+      <h3 id="{{type}}-header" on-click="{{collapseContainer}}">{{text}}</h3>
+    </div>
+
+    <style>
+      .header {
+        position: relative;
+        height: 25px;
+        background-color: #444;
+      }
+
+      h3 {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px 10px 2px;
+        margin: 0;
+        color: #FFF;
+        font-family: Consolas, Courier, monospace;
+        font-size: 14px;
+        font-weight: normal;
+      }
+
+      #template-header {
+        color: #CFB757;
+      }
+
+      #data-header {
+        color: #69AFCF;
+      }
+
+      #output-header {
+        color: #72CC72;
+      }
+
+      #name-header {
+        display: none;
+      }
+
+      #name-header.show {
+        display: block;
+        top: -1px;
+        left: -2px;
+        right: auto;
+        padding-top: 2px;
+        height: 23px;
+        box-shadow: 1px 1px 1px 1px #111;
+        background-color: #CFB757;
+        color: #222;
+      }
+      #name-header::before {
+        content: url('/images/file-icon.png');
+        position: relative;
+        top: 2px;
+        margin: 0 2px;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer({
+      ready: function() {
+        this.templateName = this.templateName || '';
+      },
+      showTemplateNameChanged: function() {
+        this.$['name-header'].classList.toggle('show', this.showTemplateName === 'true');
+      }
+    });
+  </script>
+</polymer-element>
