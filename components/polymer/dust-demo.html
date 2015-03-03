@@ -173,9 +173,9 @@
 <polymer-element name="dust-tutorial" extends="dust-demo">
   <template>
     <shadow></shadow>
-    <div class="container">
-      <h3 class="meta">Expected Output</h3>
-      <content select="dust-tutorial-answer">Hello Steven</content>
+    <div id="expected-output-container" class="container">
+      <dust-demo-header type="expected-output" text="Expected Output"></dust-demo-header>
+      <content select="dust-tutorial-answer"></content>
     </div>
     <div id="congrats">You're right!</div>
     <style>
@@ -187,7 +187,6 @@
       :host([was-correct]) {
         background-color: #6BA96B;
       }
-
 
       #congrats {
         display: none;
@@ -212,10 +211,6 @@
       :host([was-correct]) #congrats {
         opacity: 0;
         left: 115px;
-      }
-
-      .container {
-        position: relative;
       }
     </style>
   </template>

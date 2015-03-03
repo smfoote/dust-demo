@@ -1,14 +1,11 @@
 <polymer-element name="dust-demo-template" attributes="templateName showTemplateName">
   <template id="dust-demo-tl-template">
-    <div class="container template">
+    <div id="template-container" class="container">
       <dust-demo-header id="header" type="template" text="Dust Template"></dust-demo-header>
       <textarea id="workspace"></textarea>
     </div>
 
     <style>
-      .container {
-        position: relative;
-      }
       #workspace {
         display: block;
         padding: 15px 20px;
