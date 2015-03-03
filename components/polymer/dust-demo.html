@@ -8,15 +8,15 @@
 <link rel="import" href="dust-tutorial-answer.html">
 
 <!-- HTML -->
-<polymer-element name="dust-demo" attributes="templateName">
+<polymer-element name="dust-demo" attributes="templateName hideOutput">
   <template>
     <content id="template" select="dust-demo-template"></content>
     <content select="dust-demo-json"></content>
-    <div class="container compiled">
+    <div id="compiled-container" class="container">
       <dust-demo-header type="compiled" text="Compiled Dust"></dust-demo-header>
-      <pre id="compiled-dust"></pre>
+      <pre id="compiled"></pre>
     </div>
-    <div class="container output">
+    <div id="output-container" class="container">
       <dust-demo-header type="output" text="Output"></dust-demo-header>
       <pre id="output"></pre>
     </div>
@@ -43,12 +43,16 @@
         white-space: pre-wrap;
       }
 
-      .container.compiled {
+      #compiled-container {
         display: none;
       }
 
-      :host([dev]) .container.compiled {
+      :host([dev]) #compiled-container {
         display: block;
+      }
+
+      :host([hideOutput]) #output-container {
+        display: none;
       }
 
       #devToggle {
@@ -104,7 +108,7 @@
       renderDust: function() {
         var templateEditorEl, jsonEl,
             template, data,
-            compiledContainer, outputContainer,
+            compiledBox, outputBox,
             compiledDust;
 
         if (this.$.template.getDistributedNodes()) {
@@ -122,20 +126,24 @@
         // JSON container is optional
         jsonEl = this.querySelector('dust-demo-json');
         if (jsonEl) {
-          data = jsonEl.innerHTML.replace('&nbsp;', ' ');
+          data = jsonEl.textContent;
         }
-        data = data ? JSON.parse(data) : {};
+        if (data) {
+          eval('data = ' + data + ';');
+        } else {
+          data = {};
+        }
 
-        compiledContainer = this.$['compiled-dust'];
-        outputContainer = this.$.output;
+        compiledBox = this.$['compiled'];
+        outputBox = this.$.output;
         compiledDust = dust.compile(template, this.templateName);
         dust.loadSource(compiledDust);
         dust.render(this.templateName, data, function(err, out) {
           if (err) {
             console.log('render error');
           }
-          compiledContainer.innerHTML = compiledDust;
-          outputContainer.innerHTML = dust.escapeHtml(out);
+          compiledBox.innerHTML = compiledDust;
+          outputBox.innerHTML = dust.escapeHtml(out);
         })
       },
       templateNameChanged: function() {
@@ -165,9 +173,9 @@
 <polymer-element name="dust-tutorial" extends="dust-demo">
   <template>
     <shadow></shadow>
-    <div class="container">
-      <h3 class="meta">Expected Output</h3>
-      <content select="dust-tutorial-answer">Hello Steven</content>
+    <div id="expected-output-container" class="container">
+      <dust-demo-header type="expected-output" text="Expected Output"></dust-demo-header>
+      <content select="dust-tutorial-answer"></content>
     </div>
     <div id="congrats">You're right!</div>
     <style>
@@ -179,7 +187,6 @@
       :host([was-correct]) {
         background-color: #6BA96B;
       }
-
 
       #congrats {
         display: none;
@@ -204,10 +211,6 @@
       :host([was-correct]) #congrats {
         opacity: 0;
         left: 115px;
-      }
-
-      .container {
-        position: relative;
       }
     </style>
   </template>
