@@ -13,12 +13,12 @@
     <content id="template" select="dust-demo-template"></content>
     <content select="dust-demo-json"></content>
     <div id="compiled-container" class="container">
-      <dust-demo-header type="compiled" text="Compiled Dust"></dust-demo-header>
-      <pre id="compiled"></pre>
+      <dust-demo-header type="compiled">Compiled Dust</dust-demo-header>
+      <pre id="compiled" class="body"></pre>
     </div>
     <div id="output-container" class="container">
-      <dust-demo-header type="output" text="Output"></dust-demo-header>
-      <pre id="output"></pre>
+      <dust-demo-header type="output">Output</dust-demo-header>
+      <pre id="output" class="body"></pre>
     </div>
     <button id="devToggle" on-click="{{toggleDev}}">Dev Mode</button>
 
@@ -30,10 +30,13 @@
         padding: 15px;
       }
 
-      pre {
+      .container {
+        margin-bottom: 10px;
+      }
+
+      .body {
         padding: 15px 20px;
         margin: 0;
-        margin-bottom: 10px;
         min-height: 60px;
         border: none;
         background-color: #222;
@@ -52,6 +55,10 @@
       }
 
       :host([hideOutput]) #output-container {
+        display: none;
+      }
+
+      :host /deep/ .collapsed .body {
         display: none;
       }
 
@@ -157,14 +164,6 @@
         } else {
           this.setAttribute('dev', '');
         }
-      },
-      collapseContainer: function(evt) {
-        var parent = evt.target.parentElement;
-        if (parent.classList.contains('collapsed')) {
-          parent.classList.remove('collapsed');
-        } else {
-          parent.classList.add('collapsed');
-        }
       }
     });
   </script>
@@ -174,8 +173,10 @@
   <template>
     <shadow></shadow>
     <div id="expected-output-container" class="container">
-      <dust-demo-header type="expected-output" text="Expected Output"></dust-demo-header>
-      <content select="dust-tutorial-answer"></content>
+      <dust-demo-header type="expected-output">Expected Output</dust-demo-header>
+      <div class="body">
+        <content select="dust-tutorial-answer"></content>
+      </div>
     </div>
     <div id="congrats">You're right!</div>
     <style>
