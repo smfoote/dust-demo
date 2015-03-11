@@ -42,7 +42,7 @@
         this.$.workspace.addEventListener('input', this.handleInput.bind(this));
       },
       handleInput: function() {
-        var newEvt = new Event('dust-update');
+        var newEvt = new Event('dust-update', {bubbles: true, cancelable: false});
         this.innerText = this.$.workspace.value;
         this.dispatchEvent(newEvt);
         this.resizeTextarea();
