@@ -143,7 +143,8 @@
             console.log('render error');
           }
 
-          compiledBox.innerHTML = compiledDust;
+          compiledBox.innerHTML = '';
+          compiledBox.appendChild(document.createTextNode(compiledDust));
           outputBox.innerHTML = dust.escapeHtml(out);
         })
       },
